@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
  * @author 郭垚辉
  * @create_time 2018/7/21
  */
-@Configuration
+//@Configuration
 public class CustomConfiguration {
 
     @PostConstruct

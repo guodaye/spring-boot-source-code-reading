@@ -2,6 +2,7 @@ package com.github.guoyaohui;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Controller;
 
 /**
  * @author 郭垚辉
