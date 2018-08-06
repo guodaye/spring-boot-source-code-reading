@@ -1,5 +1,7 @@
 package com.github.guoyaohui.core;
 
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
 /**
@@ -7,6 +9,16 @@ import org.springframework.stereotype.Component;
  * @date 2018/08/06
  */
 @Component
-public class CustomTestBean {
+public class CustomTestBean implements InitializingBean {
+
+    @PostConstruct
+    public void init() {
+        System.out.println("PostConstruct");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("InitializingBean");
+    }
 
 }
