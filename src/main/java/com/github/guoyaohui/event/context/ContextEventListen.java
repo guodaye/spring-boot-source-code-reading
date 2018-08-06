@@ -1,4 +1,4 @@
-package com.github.guoyaohui.event;
+package com.github.guoyaohui.event.context;
 
 import java.util.Date;
 import org.springframework.context.event.ContextClosedEvent;

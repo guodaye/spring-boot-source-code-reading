@@ -1,3 +1,1 @@
-#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-# com.github.guoyaohui.config.CustomConfiguration,\
-# com.github.guoyaohui.config.CustomConfiguration2
+org.springframework.context.ApplicationListener=org.springframework.boot.context.config.DelegatingApplicationListener
