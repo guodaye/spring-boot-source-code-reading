@@ -1,5 +1,6 @@
 package com.github.guoyaohui.event;
 
+import java.util.Date;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.boot.context.event.ApplicationFailedEvent;
 import org.springframework.boot.context.event.ApplicationPreparedEvent;
@@ -18,32 +19,31 @@ public class SpringEventListen {
 
     @EventListener
     public void applicationEnvironmentPreparedEventListen(ApplicationEnvironmentPreparedEvent event) {
-        System.out.println(event);
+        System.out.println("ApplicationEnvironmentPreparedEvent : " + new Date());
     }
 
     @EventListener
     public void applicationPreparedEventListener(ApplicationPreparedEvent event) {
-        System.out.println(event);
+        System.out.println("ApplicationPreparedEvent : " + new Date());
     }
 
     @EventListener
     public void applicationReadyEventListener(ApplicationReadyEvent event) {
-        // ru
-        System.out.println(event);
+        System.out.println("ApplicationReadyEvent : " + new Date());
     }
 
     @EventListener
     public void applicationStartedEventListener(ApplicationStartedEvent event) {
-        System.out.println(event);
+        System.out.println("ApplicationStartedEvent : " + new Date());
     }
 
     @EventListener
     public void applicationFailedEventListener(ApplicationFailedEvent event) {
-        System.out.println(event);
+        System.out.println("ApplicationFailedEvent : " + new Date());
     }
 
     @EventListener
     public void applicationStartingEventListener(ApplicationStartingEvent event) {
-        System.out.println(event);
+        System.out.println("ApplicationStartingEvent : " + new Date());
     }
 }
