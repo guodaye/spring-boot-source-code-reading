@@ -4,7 +4,6 @@ import java.util.Date;
 import org.springframework.boot.context.event.ApplicationFailedEvent;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.boot.context.event.ApplicationStartingEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -30,10 +29,5 @@ public class SpringEventListen {
     @EventListener
     public void applicationFailedEventListener(ApplicationFailedEvent event) {
         System.out.println("ApplicationFailedEvent : " + new Date());
-    }
-
-    @EventListener
-    public void applicationStartingEventListener(ApplicationStartingEvent event) {
-        System.out.println("ApplicationStartingEvent : " + new Date());
     }
 }
