@@ -1,9 +1,7 @@
 package com.github.guoyaohui.event.spring;
 
 import java.util.Date;
-import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.boot.context.event.ApplicationFailedEvent;
-import org.springframework.boot.context.event.ApplicationPreparedEvent;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.boot.context.event.ApplicationStartingEvent;
@@ -18,15 +16,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringEventListen {
 
-    @EventListener
-    public void applicationEnvironmentPreparedEventListen(ApplicationEnvironmentPreparedEvent event) {
-        System.out.println("ApplicationEnvironmentPreparedEvent : " + new Date());
-    }
-
-    @EventListener
-    public void applicationPreparedEventListener(ApplicationPreparedEvent event) {
-        System.out.println("ApplicationPreparedEvent : " + new Date());
-    }
 
     @EventListener
     public void applicationReadyEventListener(ApplicationReadyEvent event) {

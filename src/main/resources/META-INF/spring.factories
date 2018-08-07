@@ -1,1 +1,4 @@
-org.springframework.context.ApplicationListener=org.springframework.boot.context.config.DelegatingApplicationListener
+org.springframework.context.ApplicationListener=\
+  com.github.guoyaohui.event.spring.ApplicationEnvironmentPreparedEventListener,\
+  com.github.guoyaohui.event.spring.ApplicationPreparedEventListener,\
+  com.github.guoyaohui.event.spring.ApplicationStartingEventListener
