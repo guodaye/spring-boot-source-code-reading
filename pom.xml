@@ -10,7 +10,8 @@
     <version>0.0.0</version>
 
     <modules>
-        <module>lesson01-listener</module>
+        <module>lesson01-ApplicationEvent</module>
+        <module>lesson02-BeanPostProcessor</module>
     </modules>
 
     <parent>
@@ -30,6 +31,12 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!--进行注释，如果需要的时候，可以进行打开，但是如果只是阅读spring的源码的时候，不建议打开该注释-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-web</artifactId>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>
