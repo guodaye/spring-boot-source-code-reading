@@ -10,10 +10,10 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @create_time 2018/7/21
  */
 @SpringBootApplication
-public class Lesson01Application {
+public class Lesson01ApplicationEvent {
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(Lesson01Application.class);
+        SpringApplication application = new SpringApplication(Lesson01ApplicationEvent.class);
         application.setBannerMode(Mode.OFF);
         ConfigurableApplicationContext context = application.run(args);
         // 发布context的start事件
