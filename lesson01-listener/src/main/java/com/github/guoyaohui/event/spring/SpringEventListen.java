@@ -1,6 +1,5 @@
 package com.github.guoyaohui.event.spring;
 
-import java.util.Date;
 import org.springframework.boot.context.event.ApplicationFailedEvent;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -15,19 +14,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringEventListen {
 
+    @EventListener
+    public void applicationStartedEventListener(ApplicationStartedEvent event) {
+        System.out.println("ApplicationStartedEvent : 导演：演员准备就绪，准备开拍");
+    }
 
     @EventListener
     public void applicationReadyEventListener(ApplicationReadyEvent event) {
-        System.out.println("ApplicationReadyEvent : " + new Date());
+        System.out.println("ApplicationReadyEvent : 大家准备好：action！！！");
     }
 
-    @EventListener
-    public void applicationStartedEventListener(ApplicationStartedEvent event) {
-        System.out.println("ApplicationStartedEvent : " + new Date());
-    }
+
 
     @EventListener
     public void applicationFailedEventListener(ApplicationFailedEvent event) {
-        System.out.println("ApplicationFailedEvent : " + new Date());
+        System.out.println("ApplicationFailedEvent : 天有不测风云，演员被台风吹跑了，杀青");
     }
 }
