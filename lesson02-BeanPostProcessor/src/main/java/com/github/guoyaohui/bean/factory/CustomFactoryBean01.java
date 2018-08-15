@@ -4,7 +4,6 @@ import com.github.guoyaohui.bean.CustomBean01;
 import com.github.guoyaohui.bean.ICustomBean;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
-import org.springframework.stereotype.Component;
 
 /**
  * bean默认是懒加载的
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @author 郭垚辉
  * @date 2018/08/15
  */
-@Component
+//@Component
 public class CustomFactoryBean01 extends AbstractFactoryBean<ICustomBean> {
 
     @PostConstruct

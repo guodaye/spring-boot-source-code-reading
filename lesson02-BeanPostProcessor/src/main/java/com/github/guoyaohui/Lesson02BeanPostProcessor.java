@@ -20,9 +20,8 @@ public class Lesson02BeanPostProcessor {
         ConfigurableApplicationContext context = application.run(args);
         // 发布context的start事件
         context.start();
-        System.out.println(context.getBean(ICustomBean.class));
-        System.out.println(context.getDisplayName());
-        System.out.println(context.getApplicationName());
+        ICustomBean bean = context.getBean(ICustomBean.class);
+        System.out.println(bean);
         // 发布context的stop事件
         context.stop();
     }

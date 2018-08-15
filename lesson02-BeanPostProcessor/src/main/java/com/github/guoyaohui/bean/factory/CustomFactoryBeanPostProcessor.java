@@ -4,13 +4,12 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * @author 郭垚辉
  * @date 2018/08/15
  */
-@Component
+//@Component
 public class CustomFactoryBeanPostProcessor implements BeanFactoryPostProcessor {
 
     @PostConstruct
