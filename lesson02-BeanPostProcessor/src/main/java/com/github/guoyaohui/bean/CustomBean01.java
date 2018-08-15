@@ -19,8 +19,6 @@ public class CustomBean01 implements ICustomBean {
     private CustomBean02 customBean02;
     @Autowired
     private CustomBean03 customBean03;
-    @Autowired
-    private ICustomBean iCustomBean;
 
     public String getName() {
         return name;
@@ -49,7 +47,6 @@ public class CustomBean01 implements ICustomBean {
     public String getValue() {
         String s = customBean02.sayHello();
         String s1 = customBean03.sayHello();
-        String value = iCustomBean.toString();
         System.out.println(value);
         System.out.println(s1);
         return s + "  :  " + this.value;

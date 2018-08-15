@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @author 郭垚辉
  * @date 2018/08/14
  */
-@Component
+//@Component
 public class CustomBeanPostProcessor implements BeanPostProcessor {
 
     @PostConstruct
