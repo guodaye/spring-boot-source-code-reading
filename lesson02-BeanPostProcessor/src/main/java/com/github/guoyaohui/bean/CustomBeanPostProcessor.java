@@ -1,5 +1,6 @@
 package com.github.guoyaohui.bean;
 
+import javax.annotation.PostConstruct;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CustomBeanPostProcessor implements BeanPostProcessor {
+
+    @PostConstruct
+    public void init() {
+        System.out.println("CustomBeanPostProcessor： 无他，只是为了查看下这个类何时添加的");
+    }
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
