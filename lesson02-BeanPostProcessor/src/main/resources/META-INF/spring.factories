@@ -1,4 +1,4 @@
-org.springframework.context.ApplicationListener=\
-  com.github.guoyaohui.event.spring.ApplicationEnvironmentPreparedEventListener,\
-  com.github.guoyaohui.event.spring.ApplicationPreparedEventListener,\
-  com.github.guoyaohui.event.spring.ApplicationStartingEventListener
+#org.springframework.context.ApplicationListener=\
+#  com.github.guoyaohui.event.spring.ApplicationEnvironmentPreparedEventListener,\
+#  com.github.guoyaohui.event.spring.ApplicationPreparedEventListener,\
+#  com.github.guoyaohui.event.spring.ApplicationStartingEventListener

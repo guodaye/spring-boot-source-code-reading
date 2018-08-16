@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @author 郭垚辉
  * @date 2018/08/14
  */
-//@Component
+@Component
 public class CustomBeanPostProcessor implements BeanPostProcessor {
 
     @PostConstruct
@@ -19,7 +19,7 @@ public class CustomBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        return null;
+        return bean;
     }
 
     @Override
