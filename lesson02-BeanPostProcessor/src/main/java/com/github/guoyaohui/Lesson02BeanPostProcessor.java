@@ -1,5 +1,7 @@
 package com.github.guoyaohui;
 
+import com.github.guoyaohui.bean.CustomBean;
+import com.github.guoyaohui.bean.ICustomBean;
 import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,8 +20,8 @@ public class Lesson02BeanPostProcessor {
         ConfigurableApplicationContext context = application.run(args);
         // 发布context的start事件
         context.start();
-//        ICustomBean bean = context.getBean(ICustomBean.class);
-//        System.out.println(bean);
+        CustomBean bean = context.getBean(CustomBean.class);
+        System.out.println(bean.getValue());
         // 发布context的stop事件
         context.stop();
     }

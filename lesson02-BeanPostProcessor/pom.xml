@@ -13,11 +13,10 @@
     <description>spring-boot的BeanPostProcessor</description>
 
     <dependencies>
+        <!--aop-->
         <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>1.19</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-
     </dependencies>
 </project>

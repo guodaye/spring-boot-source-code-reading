@@ -7,17 +7,18 @@ import org.springframework.stereotype.Component;
  * @author 郭垚辉
  * @date 2018/08/15
  */
+// implements ICustomBean
 @Component
-public class CustomBean03 implements ICustomBean {
+public class CustomBean {
 
     private String value;
 
-    @Override
+    //    @Override
     public String getValue() {
         return value;
     }
 
-    @Override
+    //    @Override
     public void setValue(String value) {
         this.value = value;
     }
@@ -25,5 +26,4 @@ public class CustomBean03 implements ICustomBean {
     public String sayHello() {
         return this.getClass().toString() + " : " + UUID.randomUUID().toString();
     }
-
 }
