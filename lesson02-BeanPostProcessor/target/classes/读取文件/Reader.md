@@ -134,6 +134,10 @@ protected final SourceClass doProcessConfigurationClass(ConfigurationClass confi
 
 ##### 2.1.1 处理@ComponentScan
 
+**2.1.1.1 ComponentScanAnnotationParser** 
+
+解析@ComponentScan中的属性，并进行扫描
+
 ```
 public Set<BeanDefinitionHolder> parse(AnnotationAttributes componentScan, final String declaringClass) {
    Assert.state(this.environment != null, "Environment must not be null");
@@ -160,23 +164,26 @@ public Set<BeanDefinitionHolder> parse(AnnotationAttributes componentScan, final
    }
 
    scanner.setResourcePattern(componentScan.getString("resourcePattern"));
-
+   // 判断是否有指定要进行扫描的类
    for (AnnotationAttributes filter : componentScan.getAnnotationArray("includeFilters")) {
       for (TypeFilter typeFilter : typeFiltersFor(filter)) {
          scanner.addIncludeFilter(typeFilter);
       }
    }
+   
+   // 判断是否有指定要排除Spring扫描的类
    for (AnnotationAttributes filter : componentScan.getAnnotationArray("excludeFilters")) {
       for (TypeFilter typeFilter : typeFiltersFor(filter)) {
          scanner.addExcludeFilter(typeFilter);
       }
    }
-
+   // 是否延迟初始化
    boolean lazyInit = componentScan.getBoolean("lazyInit");
    if (lazyInit) {
       scanner.getBeanDefinitionDefaults().setLazyInit(true);
    }
 
+   // 扫描的指定包名下的所有的Class类
    Set<String> basePackages = new LinkedHashSet<String>();
    String[] basePackagesArray = componentScan.getStringArray("basePackages");
    for (String pkg : basePackagesArray) {
@@ -191,12 +198,109 @@ public Set<BeanDefinitionHolder> parse(AnnotationAttributes componentScan, final
       basePackages.add(ClassUtils.getPackageName(declaringClass));
    }
 
+   // 定义类
+   // 卧槽，这个好像JS传入函数的方法-- 要学习一下
    scanner.addExcludeFilter(new AbstractTypeHierarchyTraversingFilter(false, false) {
       @Override
       protected boolean matchClassName(String className) {
          return declaringClass.equals(className);
       }
    });
+   
+   // 去做真正的扫描操作
    return scanner.doScan(StringUtils.toStringArray(basePackages));
 }
 ```
+
+
+
+**2.1.1.2  ClassPathBeanDefinitionScanner**
+
+进行扫描获取到最后的BeanDefinition的集合
+
+```
+protected Set<BeanDefinitionHolder> doScan(String... basePackages) {
+   Assert.notEmpty(basePackages, "At least one base package must be specified");
+   Set<BeanDefinitionHolder> beanDefinitions = new LinkedHashSet<BeanDefinitionHolder>();
+   for (String basePackage : basePackages) {
+      Set<BeanDefinition> candidates = findCandidateComponents(basePackage);
+      for (BeanDefinition candidate : candidates) {
+         ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(candidate);
+         candidate.setScope(scopeMetadata.getScopeName());
+         String beanName = this.beanNameGenerator.generateBeanName(candidate, this.registry);
+         if (candidate instanceof AbstractBeanDefinition) {
+            postProcessBeanDefinition((AbstractBeanDefinition) candidate, beanName);
+         }
+         if (candidate instanceof AnnotatedBeanDefinition) {
+            AnnotationConfigUtils.processCommonDefinitionAnnotations((AnnotatedBeanDefinition) candidate);
+         }
+         if (checkCandidate(beanName, candidate)) {
+            BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(candidate, beanName);
+            definitionHolder =
+                  AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry);
+            beanDefinitions.add(definitionHolder);
+            registerBeanDefinition(definitionHolder, this.registry);
+         }
+      }
+   }
+   return beanDefinitions;
+}
+```
+**2.1.1.3 ScopedProxyUtils**
+
+如果检测到当前的Bean存在，需要进行代理的情况，则为其原始的BeanDefinition创建一个新的BeanDefinitionHolder以封装原始BeanDefinition和其代理类。
+
+```
+public static BeanDefinitionHolder createScopedProxy(BeanDefinitionHolder definition,
+      BeanDefinitionRegistry registry, boolean proxyTargetClass) {
+
+   String originalBeanName = definition.getBeanName();
+   BeanDefinition targetDefinition = definition.getBeanDefinition();
+   String targetBeanName = getTargetBeanName(originalBeanName);
+
+   // Create a scoped proxy definition for the original bean name,
+   // "hiding" the target bean in an internal target definition.
+   RootBeanDefinition proxyDefinition = new RootBeanDefinition(ScopedProxyFactoryBean.class);
+   proxyDefinition.setDecoratedDefinition(new BeanDefinitionHolder(targetDefinition, targetBeanName));
+   proxyDefinition.setOriginatingBeanDefinition(targetDefinition);
+   proxyDefinition.setSource(definition.getSource());
+   proxyDefinition.setRole(targetDefinition.getRole());
+
+   proxyDefinition.getPropertyValues().add("targetBeanName", targetBeanName);
+   if (proxyTargetClass) {
+      targetDefinition.setAttribute(AutoProxyUtils.PRESERVE_TARGET_CLASS_ATTRIBUTE, Boolean.TRUE);
+      // ScopedProxyFactoryBean's "proxyTargetClass" default is TRUE, so we don't need to set it explicitly here.
+   }
+   else {
+      proxyDefinition.getPropertyValues().add("proxyTargetClass", Boolean.FALSE);
+   }
+
+   // Copy autowire settings from original bean definition.
+   proxyDefinition.setAutowireCandidate(targetDefinition.isAutowireCandidate());
+   proxyDefinition.setPrimary(targetDefinition.isPrimary());
+   if (targetDefinition instanceof AbstractBeanDefinition) {
+      proxyDefinition.copyQualifiersFrom((AbstractBeanDefinition) targetDefinition);
+   }
+
+   // The target bean should be ignored in favor of the scoped proxy.
+   targetDefinition.setAutowireCandidate(false);
+   targetDefinition.setPrimary(false);
+
+   // Register the target bean as separate bean in the factory.
+   registry.registerBeanDefinition(targetBeanName, targetDefinition);
+
+   // Return the scoped proxy definition as primary bean definition
+   // (potentially an inner bean).
+   return new BeanDefinitionHolder(proxyDefinition, originalBeanName, definition.getAliases());
+}
+```
+
+
+
+
+
+###  我们看下调用链
+
+![](http://oimj9bzzz.bkt.clouddn.com/18-8-17/73104706.jpg)
+
+由上图我们很容易可以看到当我们去初始化我们的BeanFactoryPostProcessor的时候，这时候，我们会调用到我们的ConfigurationClassParser来解析我们整个包结构中的注解的读取。
