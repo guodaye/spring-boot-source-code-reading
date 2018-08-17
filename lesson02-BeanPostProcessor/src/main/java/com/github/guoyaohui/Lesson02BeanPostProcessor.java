@@ -1,16 +1,10 @@
 package com.github.guoyaohui;
 
 import com.github.guoyaohui.bean.CustomBean;
-import com.github.guoyaohui.bean.ICustomBean;
-import org.aspectj.lang.annotation.Aspect;
 import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.stereotype.Component;
 
 /**
  * @author 郭垚辉
@@ -18,6 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @SpringBootApplication
 public class Lesson02BeanPostProcessor {
+
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(Lesson02BeanPostProcessor.class);
         application.setBannerMode(Mode.OFF);
