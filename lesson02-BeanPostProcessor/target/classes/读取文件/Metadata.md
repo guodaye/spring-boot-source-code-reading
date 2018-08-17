@@ -1,6 +1,6 @@
-| 注解           | 元数据             |
-| -------------- | ------------------ |
-| @Configuration | ConfigurationClass |
-| @Bean          | ConfigurationClass |
-|                |                    |
+| 注解                       | 元数据             |
+| -------------------------- | ------------------ |
+| @Configuration，@Component | ConfigurationClass |
+| @Bean                      | BeanMethod         |
+|                            |                    |
 

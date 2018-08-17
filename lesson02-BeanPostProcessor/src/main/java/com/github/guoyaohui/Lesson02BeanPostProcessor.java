@@ -2,10 +2,15 @@ package com.github.guoyaohui;
 
 import com.github.guoyaohui.bean.CustomBean;
 import com.github.guoyaohui.bean.ICustomBean;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
 
 /**
  * @author 郭垚辉

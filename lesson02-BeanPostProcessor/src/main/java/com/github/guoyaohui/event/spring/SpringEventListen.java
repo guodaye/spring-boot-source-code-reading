@@ -4,13 +4,14 @@ import org.springframework.boot.context.event.ApplicationFailedEvent;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
 
 /**
  * https://stackoverflow.com/questions/38487474/springboot-eventlistener-dont-receive-events
  * @author 郭垚辉
  * @date 2018/08/06
  */
-//@Component
+@Component
 public class SpringEventListen {
 
     @EventListener
