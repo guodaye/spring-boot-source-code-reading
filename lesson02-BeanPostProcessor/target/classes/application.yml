@@ -1,6 +1,0 @@
-logging:
-  level:
-    root: error
-file:
-  name: guoyaohui
-  age: 66666
