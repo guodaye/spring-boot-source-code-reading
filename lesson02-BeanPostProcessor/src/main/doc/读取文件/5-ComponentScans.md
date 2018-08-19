@@ -438,6 +438,8 @@ protected void postProcessBeanDefinition(AbstractBeanDefinition beanDefinition, 
 
 #### 2.5.1设置常见的注解
 
+设置通用的注解配置
+
 ```
 public static void processCommonDefinitionAnnotations(AnnotatedBeanDefinition abd) {
    processCommonDefinitionAnnotations(abd, abd.getMetadata());
@@ -527,3 +529,232 @@ protected boolean isCompatible(BeanDefinition newDefinition, BeanDefinition exis
          newDefinition.equals(existingDefinition));  // scanned equivalent class twice
 }
 ```
+#### 2.7 设置代理相关的BeanDefinition的信息
+
+##### 2.7.1 设置合适的代理模式
+
+```java
+// 设置代理模式是JDK动态代理还是CGLIB动态代理
+static BeanDefinitionHolder applyScopedProxyMode(
+      ScopeMetadata metadata, BeanDefinitionHolder definition, BeanDefinitionRegistry registry) {
+   // 获取Scope的代理信息
+   ScopedProxyMode scopedProxyMode = metadata.getScopedProxyMode();
+   if (scopedProxyMode.equals(ScopedProxyMode.NO)) {
+      return definition;
+   }
+   // 是否为CGLIB代理模式
+   boolean proxyTargetClass = scopedProxyMode.equals(ScopedProxyMode.TARGET_CLASS);
+   // 创建代理BeanDefinitionHolder
+   return ScopedProxyCreator.createScopedProxy(definition, registry, proxyTargetClass);
+}
+```
+
+
+
+#### 2.7.1 创建代理的
+
+```java
+public static BeanDefinitionHolder createScopedProxy(
+      BeanDefinitionHolder definitionHolder, BeanDefinitionRegistry registry, boolean proxyTargetClass) {
+   // 
+   return ScopedProxyUtils.createScopedProxy(definitionHolder, registry, proxyTargetClass);
+}
+```
+
+
+
+```java
+public static BeanDefinitionHolder createScopedProxy(BeanDefinitionHolder definition,
+      BeanDefinitionRegistry registry, boolean proxyTargetClass) {
+   // 获取raw BeanDefinition的名字
+   String originalBeanName = definition.getBeanName();
+   // 获取新的BeanDefinitionHolder中要设置的BeanDefinition
+   BeanDefinition targetDefinition = definition.getBeanDefinition();
+   // 获取新的BeanDefiition中要设置的beanName为：
+   // scopedTarget.+原始的beanName
+   String targetBeanName = getTargetBeanName(originalBeanName);
+
+   // Create a scoped proxy definition for the original bean name,
+   // "hiding" the target bean in an internal target definition.
+   // 创建一个代理BeanDefinition
+   RootBeanDefinition proxyDefinition = new RootBeanDefinition(ScopedProxyFactoryBean.class);
+   // 设置代理BeanDefinition中的DecoratedDefinition属性
+   proxyDefinition.setDecoratedDefinition(new BeanDefinitionHolder(targetDefinition, targetBeanName));
+   // 设置原始的BeanDefinition
+   proxyDefinition.setOriginatingBeanDefinition(targetDefinition);
+   // 设置source属性
+   proxyDefinition.setSource(definition.getSource());
+   // 设置role
+   proxyDefinition.setRole(targetDefinition.getRole());
+   // 设置targetBeanName属性
+   proxyDefinition.getPropertyValues().add("targetBeanName", targetBeanName);
+   if (proxyTargetClass) {
+      // 如果是CGLIB动态代理
+      // 设置org.springframework.aop.framework.autoproxy.AutoProxyUtils.preserveTargetClass的属性为true
+      // 因为proxyTargetClass默认值为true，所以不需要再此处显式的设置为true
+      targetDefinition.setAttribute(AutoProxyUtils.PRESERVE_TARGET_CLASS_ATTRIBUTE, Boolean.TRUE);
+      // ScopedProxyFactoryBean's "proxyTargetClass" default is TRUE, so we don't need to set it explicitly here.
+   }
+   else {
+      // 设置proxyTargetClass为false
+      // 表示为JDK动态代理
+      proxyDefinition.getPropertyValues().add("proxyTargetClass", Boolean.FALSE);
+   }
+
+   // Copy autowire settings from original bean definition.
+   // 设置autowired属性
+   proxyDefinition.setAutowireCandidate(targetDefinition.isAutowireCandidate());
+   // 设置Primary属性
+   proxyDefinition.setPrimary(targetDefinition.isPrimary());
+   if (targetDefinition instanceof AbstractBeanDefinition) {
+      // 设置修饰词
+      proxyDefinition.copyQualifiersFrom((AbstractBeanDefinition) targetDefinition);
+   }
+
+   // The target bean should be ignored in favor of the scoped proxy.
+   // 由于我们使用代理的BeanDefinitionHolder，所以我们就忽略掉原来的BeanDefinitionHolder中de
+   // Autowired的属性和Primary的值
+   targetDefinition.setAutowireCandidate(false);
+   targetDefinition.setPrimary(false);
+
+   // Register the target bean as separate bean in the factory.
+   // 将原始的BeanDefinition注册到BeanDefnitionRegistry中
+   registry.registerBeanDefinition(targetBeanName, targetDefinition);
+
+   // Return the scoped proxy definition as primary bean definition
+   // (potentially an inner bean).
+   // 构建一个BeanDefinitionHolder
+   return new BeanDefinitionHolder(proxyDefinition, originalBeanName, definition.getAliases());
+}
+```
+
+
+
+##### 2.7.3 将BeanDefinition注册到BeanDefinitionRegistry中
+
+```java
+@Override
+public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition)
+      throws BeanDefinitionStoreException {
+
+   Assert.hasText(beanName, "Bean name must not be empty");
+   Assert.notNull(beanDefinition, "BeanDefinition must not be null");
+   // 如果BeanDefinition是AbstractBeanDefinition的实例
+   // 目前Spring中的所有的BeanDefinition的实现类都是AbstractBeanDefinition的子类
+   if (beanDefinition instanceof AbstractBeanDefinition) {
+      try {
+         // 校验BeanDefinition
+         ((AbstractBeanDefinition) beanDefinition).validate();
+      }
+      catch (BeanDefinitionValidationException ex) {
+         throw new BeanDefinitionStoreException(beanDefinition.getResourceDescription(), beanName,
+               "Validation of bean definition failed", ex);
+      }
+   }
+
+   BeanDefinition oldBeanDefinition;
+   
+   // 从BeanDefinitionMap中根据beanName获取BeanDefinition的实例
+   oldBeanDefinition = this.beanDefinitionMap.get(beanName);
+   
+   // 如果不为空，打印日志或者是抛出异常
+   if (oldBeanDefinition != null) {
+      // 判断当前的BeanFactory是否允许覆盖掉BeanDefinition的定义
+      // 默认DefaultListableBeanFactory的allowBeanDefinitionOverriding为true
+      if (!isAllowBeanDefinitionOverriding()) {
+         throw new BeanDefinitionStoreException(beanDefinition.getResourceDescription(), beanName,
+               "Cannot register bean definition [" + beanDefinition + "] for bean '" + beanName +
+               "': There is already [" + oldBeanDefinition + "] bound.");
+      }
+      else if (oldBeanDefinition.getRole() < beanDefinition.getRole()) {
+         // e.g. was ROLE_APPLICATION, now overriding with ROLE_SUPPORT or ROLE_INFRASTRUCTURE
+         if (this.logger.isWarnEnabled()) {
+            this.logger.warn("Overriding user-defined bean definition for bean '" + beanName +
+                  "' with a framework-generated bean definition: replacing [" +
+                  oldBeanDefinition + "] with [" + beanDefinition + "]");
+         }
+      }
+      else if (!beanDefinition.equals(oldBeanDefinition)) {
+         if (this.logger.isInfoEnabled()) {
+            this.logger.info("Overriding bean definition for bean '" + beanName +
+                  "' with a different definition: replacing [" + oldBeanDefinition +
+                  "] with [" + beanDefinition + "]");
+         }
+      }
+      else {
+         if (this.logger.isDebugEnabled()) {
+            this.logger.debug("Overriding bean definition for bean '" + beanName +
+                  "' with an equivalent definition: replacing [" + oldBeanDefinition +
+                  "] with [" + beanDefinition + "]");
+         }
+      }
+      // 添加BeanDefinition的定义
+      this.beanDefinitionMap.put(beanName, beanDefinition);
+   }
+   else {
+      // 判断当前的BeanFactory是否在创建中...
+      if (hasBeanCreationStarted()) {
+         // Cannot modify startup-time collection elements anymore (for stable iteration)
+         // 同步，阻塞
+         synchronized (this.beanDefinitionMap) {
+            this.beanDefinitionMap.put(beanName, beanDefinition);
+            List<String> updatedDefinitions = new ArrayList<String>(this.beanDefinitionNames.size() + 1);
+            updatedDefinitions.addAll(this.beanDefinitionNames);
+            updatedDefinitions.add(beanName);
+            this.beanDefinitionNames = updatedDefinitions;
+            if (this.manualSingletonNames.contains(beanName)) {
+               Set<String> updatedSingletons = new LinkedHashSet<String>(this.manualSingletonNames);
+               updatedSingletons.remove(beanName);
+               this.manualSingletonNames = updatedSingletons;
+            }
+         }
+      }
+      else {
+         // Still in startup registration phase
+         this.beanDefinitionMap.put(beanName, beanDefinition);
+         this.beanDefinitionNames.add(beanName);
+         this.manualSingletonNames.remove(beanName);
+      }
+      this.frozenBeanDefinitionNames = null;
+   }
+   // 如果存在，或者已经创建则重置
+   if (oldBeanDefinition != null || containsSingleton(beanName)) {
+      resetBeanDefinition(beanName);
+   }
+}
+```
+
+
+
+##### 2.7.3 判断当前的BeanDefition是否已经启动
+
+```
+protected boolean hasBeanCreationStarted() {
+   return !this.alreadyCreated.isEmpty();
+}
+```
+
+
+
+```java
+// 因为我们使用了新的BeanDefinition来替代旧的BeanDefinition，所以我们也要删除旧的BeanDefnition的
+// 结果
+protected void resetBeanDefinition(String beanName) {
+   // 如果一个BeanDefinition已经被创建了，那么需要移除这个BeanDefinition对应的merged的BeanDefinition
+   clearMergedBeanDefinition(beanName);
+   // 移除单例实例
+   destroySingleton(beanName);
+
+   // 如果给定的beanName是某一些BeanDefinition的父，那么同时也需要重新设置
+   // 这些BeanDefinition的相关属性。
+   for (String bdName : this.beanDefinitionNames) {
+      if (!beanName.equals(bdName)) {
+         BeanDefinition bd = this.beanDefinitionMap.get(bdName);
+         if (beanName.equals(bd.getParentName())) {
+            resetBeanDefinition(bdName);
+         }
+      }
+   }
+}
+```
+
