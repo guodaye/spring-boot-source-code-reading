@@ -1,15 +1,13 @@
 package com.github.guoyaohui.aop;
 
-import com.github.guoyaohui.bean.CustomBean;
-import com.github.guoyaohui.bean.ICustomBean;
+import com.github.guoyaohui.bean.ICustomBean01;
+import com.github.guoyaohui.bean.ICustomBean02;
 import java.util.Objects;
-import javax.annotation.Resource;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,9 +19,11 @@ import org.springframework.stereotype.Component;
 public class CommonBeanAspectJ {
 
     @Autowired
-    private ICustomBean iCustomBean;
+    private ICustomBean01 iCustomBean01;
+    @Autowired
+    private ICustomBean02 iCustomBean02;
 
-    @Pointcut(value = "execution(public * com.github.guoyaohui.bean.CustomBean.*(..))")
+    @Pointcut(value = "execution(public * com.github.guoyaohui.bean.CustomBean01.*(..))")
     public void annotaionCheck() {
     }
 
@@ -32,7 +32,7 @@ public class CommonBeanAspectJ {
         long begin = System.currentTimeMillis();
         Object result = point.proceed();
         System.out.println(" 耗时： " + (System.currentTimeMillis() - begin));
-        boolean equals = Objects.equals(iCustomBean, null);
+        boolean equals = Objects.equals(iCustomBean01, iCustomBean02);
         return result;
     }
 }

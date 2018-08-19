@@ -24,10 +24,10 @@ public class CustomBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        if (bean instanceof ICustomBean) {
-            String value = ((ICustomBean) bean).getValue();
+        if (bean instanceof ICustomBean02) {
+            String value = ((ICustomBean02) bean).getValue();
             if (value == null || value.length() == 0) {
-                ((ICustomBean) bean).setValue("defaultValue");
+                ((ICustomBean02) bean).setValue("defaultValue");
             }
         }
         return bean;
