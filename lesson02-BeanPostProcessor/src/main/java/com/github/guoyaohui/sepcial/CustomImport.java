@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
  * @author 郭垚辉
  * @date 2018/08/16
  */
-@Import(HelloWorld.class)
-@Configuration
+//@Import(HelloWorld.class)
+//@Configuration
 public class CustomImport {
 
-    @Bean
+//    @Bean
     public NewWorld newWorld() {
         return new NewWorld();
     }

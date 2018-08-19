@@ -1,6 +1,7 @@
 package com.github.guoyaohui.bean;
 
 import java.util.UUID;
+import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,16 +10,16 @@ import org.springframework.stereotype.Component;
  */
 // implements ICustomBean
 @Component
-public class CustomBean {
+public class CustomBean implements ICustomBean {
 
     private String value;
 
-    //    @Override
+    @Override
     public String getValue() {
         return value;
     }
 
-    //    @Override
+    @Override
     public void setValue(String value) {
         this.value = value;
     }
