@@ -8,13 +8,14 @@ import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * @author 郭垚辉
  * @create_time 2018/7/21
  */
 @SpringBootApplication
-//@EnableAspectJAutoProxy(proxyTargetClass = true)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class Lesson02BeanPostProcessor {
 
     public static void main(String[] args) {
