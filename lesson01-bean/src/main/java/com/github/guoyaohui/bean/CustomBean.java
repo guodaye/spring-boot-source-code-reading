@@ -10,22 +10,19 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class CustomBean01 implements ICustomBean01 {
+public class CustomBean {
 
     private String value;
-
 
     @PostConstruct
     public void init() {
         System.out.println(this.getClass().getSimpleName());
     }
 
-    @Override
     public String getValue() {
         return value;
     }
 
-    @Override
     public void setValue(String value) {
         this.value = value;
     }

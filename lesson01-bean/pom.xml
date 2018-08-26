@@ -9,14 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lesson02-AOP</artifactId>
-    <description>spring-boot的BeanPostProcessor</description>
+    <artifactId>lesson01-bean</artifactId>
+    <description>spring-boot中bean的生命周期</description>
 
-    <dependencies>
-        <!--aop-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-    </dependencies>
 </project>

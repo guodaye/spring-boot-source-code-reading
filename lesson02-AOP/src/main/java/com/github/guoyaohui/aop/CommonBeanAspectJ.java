@@ -1,8 +1,8 @@
 package com.github.guoyaohui.aop;
 
+import com.github.guoyaohui.bean.CustomBeanConfigurationFile;
 import com.github.guoyaohui.bean.ICustomBean01;
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,9 +18,12 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class CommonBeanAspectJ {
-//
+
     @Autowired
     private ICustomBean01 iCustomBean01;
+
+    @Autowired
+    private CustomBeanConfigurationFile customBeanConfigurationFile;
 
     @Value("name")
     private String name;
@@ -36,14 +39,6 @@ public class CommonBeanAspectJ {
 
     @Around(value = "annotaionCheck()")
     public Object calculateTime(ProceedingJoinPoint point) throws Throwable {
-        long begin = System.currentTimeMillis();
-        Object result = point.proceed();
-        System.out.println(" 耗时： " + (System.currentTimeMillis() - begin));
-        return result;
-    }
-
-    @PreDestroy
-    public void desctroy() {
-        System.out.println("world");
+        return point.proceed();
     }
 }

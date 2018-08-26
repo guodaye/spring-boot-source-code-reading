@@ -10,9 +10,10 @@
     <version>0.0.0</version>
 
     <modules>
+        <module>lesson01-bean</module>
         <module>lesson01-Event</module>
         <module>lesson02-AOP</module>
-        <module>lesson02-BeanPostProcessor</module>
+        <module>lesson03-BeanPostProcessor</module>
     </modules>
 
     <parent>
@@ -41,15 +42,15 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-configuration-processor</artifactId>-->
-            <!--<optional>true</optional>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-configuration-processor</artifactId>-->
+        <!--<optional>true</optional>-->
         <!--</dependency>-->
 
         <!--进行注释，如果需要的时候，可以进行打开，但是如果只是阅读spring的源码的时候，不建议打开该注释-->
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-web</artifactId>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-web</artifactId>-->
         <!--</dependency>-->
         <!--aop-->
         <!--<dependency>-->

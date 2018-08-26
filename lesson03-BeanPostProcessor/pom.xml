@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lesson02-BeanPostProcessor</artifactId>
+    <artifactId>lesson03-BeanPostProcessor</artifactId>
     <description>spring-boot的BeanPostProcessor</description>
 
     <dependencies>
