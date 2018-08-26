@@ -2,6 +2,7 @@ package com.github.guoyaohui.bean;
 
 import java.util.UUID;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,7 +17,7 @@ public class CustomBean {
 
     @PostConstruct
     public void init() {
-        System.out.println(this.getClass().getSimpleName());
+        System.out.println("init..." + this.getClass().getSimpleName());
     }
 
     public String getValue() {
@@ -29,5 +30,10 @@ public class CustomBean {
 
     public String sayHello() {
         return this.getClass().toString() + " : " + UUID.randomUUID().toString();
+    }
+
+    @PreDestroy
+    public void destory() {
+        System.out.println("destory..." + this.getClass().getSimpleName());
     }
 }

@@ -11,10 +11,10 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @create_time 2018/7/21
  */
 @SpringBootApplication
-public class Lesson02Bean {
+public class Lesson01Bean {
 
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(Lesson02Bean.class);
+        SpringApplication application = new SpringApplication(Lesson01Bean.class);
         application.setBannerMode(Mode.OFF);
 
         ConfigurableApplicationContext context = application.run(args);
