@@ -33,7 +33,8 @@ MessageSourceAware
 ApplicationContextAware
 
 7.2 ConfigurationClassPostProcessor ==> 处理ImportAware
-7.3 PostProcessorRegistrationDelegate == donothing
+7.3 PostProcessorRegistrationDelegate == #7
+'=]donothing
 7.4 ConfigurationPropertiesBindingPostProcessor ==> 处理ConfigurationProperties注解
 7.5 AbstractAutoProxyCreator ==> donothingm 做代理类
 7.6 InitDestroyAnnotationBeanPostProcessor ==> 执行@PostConstruct标注的注解

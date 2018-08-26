@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  */
 // implements ICustomBean02
 //@Component
-public class CustomBean02 implements ICustomBean02 {
+public class CustomBean01 implements ICustomBean02, ICustomBean01 {
 
     private String value;
 

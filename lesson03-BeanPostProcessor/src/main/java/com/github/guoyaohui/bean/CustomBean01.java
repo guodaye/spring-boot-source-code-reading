@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @date 2018/08/15
  */
 // implements ICustomBean02
-@Component
+//@Component
 public class CustomBean01 implements ICustomBean02, ICustomBean01 {
 
     private String value;
