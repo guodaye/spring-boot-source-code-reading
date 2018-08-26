@@ -10,7 +10,8 @@
     <version>0.0.0</version>
 
     <modules>
-        <module>lesson01-ApplicationEvent</module>
+        <module>lesson01-Event</module>
+        <module>lesson02-AOP</module>
         <module>lesson02-BeanPostProcessor</module>
     </modules>
 
