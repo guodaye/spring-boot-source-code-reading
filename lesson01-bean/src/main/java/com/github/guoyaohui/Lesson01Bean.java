@@ -20,7 +20,11 @@ public class Lesson01Bean {
         ConfigurableApplicationContext context = application.run(args);
         // 发布context的start事件
         context.start();
-        CustomBean customBean = context.getBean(CustomBean.class);
+        CustomBean customBean0 = context.getBean(CustomBean.class);
+        CustomBean customBean1 = context.getBean(CustomBean.class);
+        CustomBean customBean2 = context.getBean(CustomBean.class);
+        CustomBean customBean3 = context.getBean(CustomBean.class);
+        CustomBean customBean4 = context.getBean(CustomBean.class);
         // 发布context的stop事件
         context.stop();
     }

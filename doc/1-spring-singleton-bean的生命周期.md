@@ -402,7 +402,7 @@ protected Object initializeBean(final String beanName, final Object bean, RootBe
 
 
 
-### 六、代理bean最屌
+### 六、代理bean最屌--明天看下prototype的bean的创建过程
 
 ```java
 protected Object resolveBeforeInstantiation(String beanName, RootBeanDefinition mbd) {
@@ -432,3 +432,11 @@ protected Object resolveBeforeInstantiation(String beanName, RootBeanDefinition 
 }
 ```
 
+
+
+只有单例才有，prototype遇到这种bean会直接跳过这种方法
+
+```
+@PostConstruct
+@PreDestroy
+```
