@@ -18,7 +18,8 @@ public class Lesson01Bean {
         application.setBannerMode(Mode.OFF);
 
         ConfigurableApplicationContext context = application.run(args);
-        // 发布context的start事件
+        // 发布context的start事件AbstractAutowireCapableBeanFactory
+
         context.start();
         CustomBean customBean0 = context.getBean(CustomBean.class);
         CustomBean customBean1 = context.getBean(CustomBean.class);

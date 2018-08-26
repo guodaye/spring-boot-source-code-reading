@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
+//@Scope不会执行@PreDestroy的方法
+//@Scope(value = "prototype", proxyMode = ScopedProxyMode.NO) -- 采用getBean不会有问题
+//@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS) --若要使用@Autowired则必须使用代理模式
 public class CustomBean {
 
     private String value;
