@@ -14,6 +14,8 @@
         <module>lesson01-Event</module>
         <module>lesson02-AOP</module>
         <module>lesson03-BeanPostProcessor</module>
+        <module>lesson02-aspectj-compile</module>
+        <module>lesson02-aspectj-loadtimeweaver</module>
     </modules>
 
     <parent>
