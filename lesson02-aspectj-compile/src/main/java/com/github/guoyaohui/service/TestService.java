@@ -11,7 +11,7 @@ public class TestService {
 
 
     public Object calculateTime() throws InterruptedException {
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         return "hello world";
     }
 }

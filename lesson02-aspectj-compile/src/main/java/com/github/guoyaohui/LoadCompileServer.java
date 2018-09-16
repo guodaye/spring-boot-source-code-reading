@@ -21,6 +21,7 @@ public class LoadCompileServer {
 
         TestService bean1 = context.getBean(TestService.class);
         Object o1 = bean1.calculateTime();
+        System.out.println(bean0.getClass());
         System.out.println(o);
         context.stop();
     }

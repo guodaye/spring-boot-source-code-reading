@@ -37,7 +37,7 @@
                     <showWeaveInfo>true</showWeaveInfo>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <complianceLevel>1.5</complianceLevel>
+                    <complianceLevel>1.8</complianceLevel>
                     <encoding>UTF-8</encoding>
                     <verbose>false</verbose>
                     <outxml>true</outxml>
