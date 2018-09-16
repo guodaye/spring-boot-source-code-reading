@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
 /**
+ * @Aspect是表示定义了一个切面的意思
+ *
  * @author 郭垚辉
  * @date 2018/9/16
  */

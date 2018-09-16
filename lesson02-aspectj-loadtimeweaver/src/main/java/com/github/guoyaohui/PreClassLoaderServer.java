@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
+ * AspectJ的类加载期织入
+ *
  * @author 郭垚辉
  * @date 2018/9/16
  */
