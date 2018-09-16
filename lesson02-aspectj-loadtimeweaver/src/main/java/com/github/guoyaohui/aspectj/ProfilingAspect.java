@@ -30,7 +30,6 @@ public class ProfilingAspect implements LoadTimeWeavingConfigurer {
             return pjp.proceed();
         } finally {
             sw.stop();
-            System.out.println("=======================");
             System.out.println(sw.prettyPrint());
         }
     }

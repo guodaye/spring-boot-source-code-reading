@@ -11,5 +11,52 @@
 
     <artifactId>lesson02-aspectj-compile</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+    </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <target>1.8</target>
+                    <source>1.8</source>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.11</version>
+                <configuration>
+                    <verbose>true</verbose>
+                    <privateScope>true</privateScope>
+                    <showWeaveInfo>true</showWeaveInfo>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <complianceLevel>1.5</complianceLevel>
+                    <encoding>UTF-8</encoding>
+                    <verbose>false</verbose>
+                    <outxml>true</outxml>
+                    <aspectLibraries>
+                        <!-- 此处定义外部的aspect包，例如spring的事务aspect包 。这里引用的包必须在依赖中声明 -->
+                          <aspectLibrary>
+                              <groupId>org.springframework.boot</groupId>
+                              <artifactId>spring-boot-starter-aop</artifactId>
+                          </aspectLibrary>
+                    </aspectLibraries>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
