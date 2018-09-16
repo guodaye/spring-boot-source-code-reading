@@ -16,8 +16,11 @@ public class LoadCompileServer {
 
     public static void main(String[] args) throws InterruptedException {
         ConfigurableApplicationContext context = SpringApplication.run(LoadCompileServer.class, args);
-        TestService bean = context.getBean(TestService.class);
-        Object o = bean.calculateTime();
+        TestService bean0 = context.getBean(TestService.class);
+        Object o = bean0.calculateTime();
+
+        TestService bean1 = context.getBean(TestService.class);
+        Object o1 = bean1.calculateTime();
         System.out.println(o);
         context.stop();
     }
