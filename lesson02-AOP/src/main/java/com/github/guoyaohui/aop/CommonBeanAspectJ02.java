@@ -4,8 +4,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,14 +12,13 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-@Order(Ordered.LOWEST_PRECEDENCE - 1)
-public class CommonBeanAspectJ {
+public class CommonBeanAspectJ02 {
 
     @Pointcut(value = "execution(public * com.github.guoyaohui.bean.CustomBean01.*(..))")
-    public void annotaionCheck() {
+    public void annotaionCheck2() {
     }
 
-    @Around(value = "annotaionCheck()")
+    @Around(value = "annotaionCheck2()")
     public Object calculateTime(ProceedingJoinPoint point) throws Throwable {
         return point.proceed();
     }

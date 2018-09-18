@@ -26,6 +26,8 @@ public class Lesson02AOP {
         context.start();
         ICustomBean01 bean1 = context.getBean(ICustomBean01.class);
         // 发布context的stop事件
+        String value = bean1.getValue();
+        System.out.println(value);
         context.stop();
     }
 
